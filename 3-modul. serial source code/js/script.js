@@ -229,7 +229,7 @@ window.addEventListener("DOMContentLoaded", () => {
   forms.forEach((form) => {
     postData(form);
   });
-
+  console.log(forms);
   function postData(form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -239,9 +239,15 @@ window.addEventListener("DOMContentLoaded", () => {
       form.append(statusMessage);
       const request = new XMLHttpRequest();
       request.open("POST", "server.php");
+      request.setRequestHeader("Content-Type", "application/json");
       const formData = new FormData(form);
-
-      request.send(formData);
+      const obj = {};
+      formData.forEach((key, val) => {
+        obj[val] = key;
+      });
+      console.log(obj);
+      const json = JSON.stringify(obj);
+      request.send(json);
 
       request.addEventListener("load", () => {
         if (request.status === 200) {
