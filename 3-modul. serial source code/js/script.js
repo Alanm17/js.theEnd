@@ -104,8 +104,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Modal
   const modalTrigger = document.querySelectorAll("[data-modal]"),
-    modal = document.querySelector(".modal"),
-    modalCloseBtn = document.querySelector("[data-close]");
+    modal = document.querySelector(".modal");
 
   function closeModal() {
     modal.classList.add("hide");
@@ -124,10 +123,8 @@ window.addEventListener("DOMContentLoaded", () => {
     item.addEventListener("click", openModal);
   });
 
-  modalCloseBtn.addEventListener("click", closeModal);
-
   modal.addEventListener("click", (e) => {
-    if (e.target == modal) {
+    if (e.target == modal || e.target.getAttribute("data-close") == "") {
       closeModal();
     }
   });
@@ -142,7 +139,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function showModalByScroll() {
     if (
-      window.pageYOffset + document.documentElement.clientHeight >=
+      window.screenY + document.documentElement.clientHeight >=
       document.documentElement.scrollHeight
     ) {
       openModal();
@@ -235,7 +232,7 @@ window.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
 
       const statusMessage = document.createElement("div");
-      statusMessage.textContent = messages.loading;
+      showThankMsg(messages.loading);
       form.append(statusMessage);
       const request = new XMLHttpRequest();
       request.open("POST", "server.php");
@@ -252,16 +249,35 @@ window.addEventListener("DOMContentLoaded", () => {
       request.addEventListener("load", () => {
         if (request.status === 200) {
           console.log(request.response);
-          statusMessage.textContent = messages.success;
+          showThankMsg(messages.success);
           form.reset();
           setTimeout(() => {
             statusMessage.remove();
           }, 2000);
         } else {
-          statusMessage.textContent = messages.failure;
+          showThankMsg(messages.failure);
         }
       });
     });
+  }
+  function showThankMsg(message) {
+    const prevModelDiolog = document.querySelector(".modal__dialog");
+    prevModelDiolog.classList.add("hide");
+    openModal();
+    const thanksModel = document.createElement("div");
+    thanksModel.classList.add("modal__dialog");
+    thanksModel.innerHTML = ` 
+    <div class="modal__content">
+      <div data-close class="modal__close">&times;</div>
+      <div class="modal__title">${message}
+    </div>`;
+    document.querySelector(".modal").append(thanksModel);
+    setTimeout(() => {
+      thanksModel.remove();
+      prevModelDiolog.classList.add("show");
+      prevModelDiolog.classList.remove("hide");
+      closeModal();
+    }, 4000);
   }
 });
 
