@@ -138,7 +138,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // const modalTimerId = setTimeout(openModal, 5000)
+  const modalTimerId = setTimeout(openModal, 5000);
 
   function showModalByScroll() {
     if (
@@ -217,45 +217,63 @@ window.addEventListener("DOMContentLoaded", () => {
     ".menu .container",
     "menu__item"
   ).render();
-
+  const serverMsg = function (msgType) {
+    const statusMsg = document.createElement("div");
+    const msg = {
+      loading: "Loading....",
+      success: "Process Completed Successfully",
+      failure: "Something Went Wrong",
+    };
+    statusMsg.textContent = msg[msgType];
+    document.form.appendChild(statusMsg);
+  };
   const forms = document.querySelectorAll("form");
   forms.forEach((form) => {
     postData(form);
   });
-  const postData = function (form) {
+  function postData(form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const request = new XMLHttpRequest();
-      request.open("POST", "server.php");
+      const statusMsg = document.createElement("div");
+      serverMsg("loading");
+      request.open("POST", "php/server.php");
       const formData = new FormData(form);
       request.send(formData);
       console.log(formData);
 
       request.addEventListener("load", () => {
-        if (request.response == 200) {
+        if (request.status == 200) {
           console.log(request.response);
+          serverMsg("seccess");
+          form.reset(); // resets the data
+          setTimeout(() => {
+            statusMsg.textContent.remove();
+          }, 2000);
+        } else {
+          serverMsg("failure");
         }
       });
     });
-  };
+  }
 });
 
-const m = {
-  car: "BNW",
-  speed: 120,
-  extra: {
-    owner: "Alan",
-    helper: "Jake",
-  },
-};
+// const m = {
+//   car: "BNW",
+//   speed: 120,
+//   extra: {
+//     owner: "Alan",
+//     helper: "Jake",
+//   },
+// };
 
-const { ...b } = m; // destructing // shallow copying
-console.log(b);
-b.extra.helper = "Michael";
-console.log(m);
-const a = JSON.parse(JSON.stringify(m)); // deep cloning
-a.extra.helper = "jakejan";
-console.log(m);
-console.log(a);
-const n = m;
-console.log(n);
+// const { ...b } = m; // destructing // shallow copying
+// console.log(b);
+// b.extra.helper = "Michael";
+// console.log(m);
+// const a = JSON.parse(JSON.stringify(m)); // deep cloning
+// a.extra.helper = "jakejan";
+// console.log(m);
+// console.log(a);
+// const n = m;
+// console.log(n);
