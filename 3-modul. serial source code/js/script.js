@@ -47,7 +47,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Timer
 
-  const deadline = "2022-08-11";
+  const deadline = "2024-12-31";
 
   function getTimeRemaining(endtime) {
     let days, hours, minutes, seconds;
@@ -217,41 +217,42 @@ window.addEventListener("DOMContentLoaded", () => {
     ".menu .container",
     "menu__item"
   ).render();
-  const statusMsg = document.createElement("div");
-  const serverMsg = function (msgType) {
-    const msg = {
-      loading: "Loading....",
-      success: "Process Completed Successfully",
-      failure: "Something Went Wrong",
-    };
-    statusMsg.textContent = msg[msgType];
-    return statusMsg;
-  };
+  // Form Submission
   const forms = document.querySelectorAll("form");
+
+  const messages = {
+    loading: "Loading...",
+    success: "Process Completed Successfully",
+    failure: "Something Went Wrong",
+  };
+
   forms.forEach((form) => {
     postData(form);
   });
+
   function postData(form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
+
+      const statusMessage = document.createElement("div");
+      statusMessage.textContent = messages.loading;
+      form.append(statusMessage);
       const request = new XMLHttpRequest();
-      const statusMsg = document.createElement("div");
-      serverMsg("loading");
-      form.append(statusMsg);
       request.open("POST", "server.php");
       const formData = new FormData(form);
+
       request.send(formData);
 
       request.addEventListener("load", () => {
-        if (request.status == 200) {
+        if (request.status === 200) {
           console.log(request.response);
-          serverMsg("seccess");
-          form.reset(); // resets the data
+          statusMessage.textContent = messages.success;
+          form.reset();
           setTimeout(() => {
-            statusMsg.remove();
+            statusMessage.remove();
           }, 2000);
         } else {
-          serverMsg("failure");
+          statusMessage.textContent = messages.failure;
         }
       });
     });
