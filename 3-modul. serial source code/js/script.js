@@ -217,6 +217,27 @@ window.addEventListener("DOMContentLoaded", () => {
     ".menu .container",
     "menu__item"
   ).render();
+
+  const forms = document.querySelectorAll("form");
+  forms.forEach((form) => {
+    postData(form);
+  });
+  const postData = function (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const request = new XMLHttpRequest();
+      request.open("POST", "server.php");
+      const formData = new FormData(form);
+      request.send(formData);
+      console.log(formData);
+
+      request.addEventListener("load", () => {
+        if (request.response == 200) {
+          console.log(request.response);
+        }
+      });
+    });
+  };
 });
 
 const m = {
