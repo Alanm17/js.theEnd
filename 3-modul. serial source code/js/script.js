@@ -217,15 +217,15 @@ window.addEventListener("DOMContentLoaded", () => {
     ".menu .container",
     "menu__item"
   ).render();
+  const statusMsg = document.createElement("div");
   const serverMsg = function (msgType) {
-    const statusMsg = document.createElement("div");
     const msg = {
       loading: "Loading....",
       success: "Process Completed Successfully",
       failure: "Something Went Wrong",
     };
     statusMsg.textContent = msg[msgType];
-    document.form.appendChild(statusMsg);
+    return statusMsg;
   };
   const forms = document.querySelectorAll("form");
   forms.forEach((form) => {
@@ -237,10 +237,10 @@ window.addEventListener("DOMContentLoaded", () => {
       const request = new XMLHttpRequest();
       const statusMsg = document.createElement("div");
       serverMsg("loading");
-      request.open("POST", "php/server.php");
+      form.append(statusMsg);
+      request.open("POST", "server.php");
       const formData = new FormData(form);
       request.send(formData);
-      console.log(formData);
 
       request.addEventListener("load", () => {
         if (request.status == 200) {
@@ -248,7 +248,7 @@ window.addEventListener("DOMContentLoaded", () => {
           serverMsg("seccess");
           form.reset(); // resets the data
           setTimeout(() => {
-            statusMsg.textContent.remove();
+            statusMsg.remove();
           }, 2000);
         } else {
           serverMsg("failure");
