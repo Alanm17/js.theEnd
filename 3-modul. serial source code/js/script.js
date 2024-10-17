@@ -139,7 +139,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function showModalByScroll() {
     if (
-      window.screenY + document.documentElement.clientHeight >=
+      window.scrollY + document.documentElement.clientHeight >=
       document.documentElement.scrollHeight
     ) {
       openModal();
@@ -218,7 +218,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const forms = document.querySelectorAll("form");
 
   const messages = {
-    loading: "Loading...",
+    loading: "img/spinner.svg",
     success: "Process Completed Successfully",
     failure: "Something Went Wrong",
   };
@@ -231,8 +231,12 @@ window.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const statusMessage = document.createElement("div");
-      showThankMsg(messages.loading);
+      const statusMessage = document.createElement("img");
+      statusMessage.src = messages.loading;
+      // if (statusMessage.src) return;
+      // statusMessage.style.cssText = `
+      // display: block
+      // margin: 0 auto`;
       form.append(statusMessage);
       const request = new XMLHttpRequest();
       request.open("POST", "server.php");
@@ -248,7 +252,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
       request.addEventListener("load", () => {
         if (request.status === 200) {
-          console.log(request.response);
+          // console.log(request.response);
           showThankMsg(messages.success);
           form.reset();
           setTimeout(() => {
@@ -300,3 +304,17 @@ window.addEventListener("DOMContentLoaded", () => {
 // console.log(a);
 // const n = m;
 // console.log(n);
+const friendHere = false;
+const requestFriendA = new Promise((get, reject) => {
+  if (friendHere) {
+    const msg = "he came";
+    get(msg);
+  } else {
+    const msg = "Did not come";
+    reject(msg);
+  }
+});
+requestFriendA
+  .then((msg) => console.log(msg))
+  .catch((err) => console.log(err))
+  .finally((last) => console.log("last operation has accured"));
