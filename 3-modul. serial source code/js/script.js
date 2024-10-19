@@ -304,17 +304,26 @@ window.addEventListener("DOMContentLoaded", () => {
 // console.log(a);
 // const n = m;
 // console.log(n);
-const friendHere = false;
-const requestFriendA = new Promise((get, reject) => {
-  if (friendHere) {
-    const msg = "he came";
-    get(msg);
-  } else {
-    const msg = "Did not come";
-    reject(msg);
-  }
+// const friendHere = false;
+// const requestFriendA = new Promise((get, reject) => {
+//   if (friendHere) {
+//     const msg = "he came";
+//     get(msg);
+//   } else {
+//     const msg = "Did not come";
+//     reject(msg);
+//   }
+// });
+// requestFriendA
+//   .then((msg) => console.log(msg))
+//   .catch((err) => console.log(err))
+//   .finally((last) => console.log("last operation has accured"));
+const req = new Promise((resolve, reject) => {
+  console.log("Request data...");
+  const product = {
+    name: "car",
+    color: "black",
+  };
+  resolve(product);
 });
-requestFriendA
-  .then((msg) => console.log(msg))
-  .catch((err) => console.log(err))
-  .finally((last) => console.log("last operation has accured"));
+req.then((data) => console.log(data)).finally(console.log("Fetching end."));
