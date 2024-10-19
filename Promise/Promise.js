@@ -35,10 +35,46 @@
 //   .finally((last) => console.log("last operation has accured"));
 const req = new Promise((resolve, reject) => {
   console.log("Request data...");
-  const product = {
-    name: "car",
-    color: "black",
-  };
-  resolve(product);
+  setTimeout(() => {
+    const product = {
+      name: "car",
+      color: "black",
+    };
+    resolve(product);
+    console.log("Processing Data...");
+  }, 2000);
 });
-req.then((data) => console.log(data)).finally(console.log("Fetching end."));
+req
+  .then(
+    (data) =>
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          data.satatus = "Ordered";
+          console.log("Get Data...");
+          resolve(data);
+        }, 2000);
+      })
+  )
+  .then((result) => console.log(result))
+  .catch((data) => console.log("Something Went Wrong!"))
+  .finally(() => console.log("Fetching end"));
+
+const requestt = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
+// requestt.then((2000)=> console.log())
+requestt(5000).then((data) => console.log("Data took 1s"));
+requestt(5000).then((data) => console.log("Data took 2s"));
+requestt(5000).then((data) => console.log("Data took 3s"));
+//   .finally(() => console.log("Fetching End."));
+Promise.all([requestt(5000), requestt(5000), requestt(5000)]).then((data) =>
+  console.log("All")
+);
+Promise.race([requestt(5000), requestt(5000), requestt(5000)]).then((data) =>
+  console.log("Race first")
+);
