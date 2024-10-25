@@ -67,14 +67,14 @@ const requestt = (time) => {
   });
 };
 
-// requestt.then((2000)=> console.log())
-requestt(5000).then((data) => console.log("Data took 1s"));
-requestt(5000).then((data) => console.log("Data took 2s"));
-requestt(5000).then((data) => console.log("Data took 3s"));
-//   .finally(() => console.log("Fetching End."));
-Promise.all([requestt(5000), requestt(5000), requestt(5000)]).then((data) =>
-  console.log("All")
-);
-Promise.race([requestt(5000), requestt(5000), requestt(5000)]).then((data) =>
-  console.log("Race first")
+// // requestt.then((2000)=> console.log())
+// requestt(5000).then((data) => console.log("Data took 1s"));
+// requestt(5000).then((data) => console.log("Data took 2s"));
+// requestt(5000).then((data) => console.log("Data took 3s"));
+// //   .finally(() => console.log("Fetching End."));
+// Promise.all([requestt(5000), requestt(5000), requestt(5000)]).then((data) =>
+//   console.log("All")
+// );
+// Promise.race([requestt(5000), requestt(5000), requestt(5000)]).then((data) =>
+//   console.log("Race first")
 );
