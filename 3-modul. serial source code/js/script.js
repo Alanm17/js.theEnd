@@ -239,16 +239,16 @@ window.addEventListener("DOMContentLoaded", () => {
       // margin: 0 auto`;
       form.append(statusMessage);
       const request = new XMLHttpRequest();
-      request.open("POST", "server.php");
+      // request.open("POST", "server.php");
       request.setRequestHeader("Content-Type", "application/json");
       const formData = new FormData(form);
-      const obj = {};
-      formData.forEach((key, val) => {
-        obj[val] = key;
-      });
-      console.log(obj);
-      const json = JSON.stringify(obj);
-      request.send(json);
+      // const obj = {};
+      // formData.forEach((key, val) => {
+      //   obj[val] = key;
+      // });
+      // console.log(obj);
+      // const json = JSON.stringify(obj);
+      // request.send(json);
 
       request.addEventListener("load", () => {
         if (request.status === 200) {
@@ -283,4 +283,13 @@ window.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }, 4000);
   }
+  fetch("https://jsonplaceholder.typicode.com/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: "Alan" }),
+  })
+    .then((response) => response.json())
+    .then((json) => console.log(json));
 });
