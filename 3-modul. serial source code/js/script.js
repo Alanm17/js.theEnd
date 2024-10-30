@@ -234,34 +234,57 @@ window.addEventListener("DOMContentLoaded", () => {
       const statusMessage = document.createElement("img");
       statusMessage.src = messages.loading;
       // if (statusMessage.src) return;
-      // statusMessage.style.cssText = `
-      // display: block
-      // margin: 0 auto`;
+      statusMessage.style.cssText = `
+      display: block
+      margin: 0 auto`;
       form.append(statusMessage);
-      const request = new XMLHttpRequest();
+      // const request = new XMLHttpRequest();
       // request.open("POST", "server.php");
-      request.setRequestHeader("Content-Type", "application/json");
+      // setRequestHeader("Content-Type", "application/json");
       const formData = new FormData(form);
       // const obj = {};
       // formData.forEach((key, val) => {
       //   obj[val] = key;
       // });
+      fetch("server.php", {
+        method: "POST",
+        headers:{
+          "Content-Type":"application/json"
+        }
+        body: formData,
+      })
+        .then((data) => data.text())
+        .then((data) => {
+          setTimeout(() => {
+            console.log(data);
+            showThankMsg(messages.success);
+           
+            statusMessage.remove();
+          }, 2000);
+        })
+        .then((data) => {
+          statusMessage.textContent = messages.loading;
+          // statusMessage.remove();
+        })
+        .catch(() => {
+          showThankMsg(messages.failure);
+        }).finally( ()=>  form.reset() )
       // console.log(obj);
       // const json = JSON.stringify(obj);
       // request.send(json);
 
-      request.addEventListener("load", () => {
-        if (request.status === 200) {
-          // console.log(request.response);
-          showThankMsg(messages.success);
-          form.reset();
-          setTimeout(() => {
-            statusMessage.remove();
-          }, 2000);
-        } else {
-          showThankMsg(messages.failure);
-        }
-      });
+      // request.addEventListener("load", () => {
+      //   if (request.status === 200) {
+      //     // console.log(request.response);
+      //     showThankMsg(messages.success);
+      //     form.reset();
+      //     setTimeout(() => {
+      //       statusMessage.remove();
+      //     }, 2000);
+      //   } else {
+      //     showThankMsg(messages.failure);
+      //   }
+      // });
     });
   }
   function showThankMsg(message) {
@@ -281,15 +304,15 @@ window.addEventListener("DOMContentLoaded", () => {
       prevModelDiolog.classList.add("show");
       prevModelDiolog.classList.remove("hide");
       closeModal();
-    }, 4000);
+    }, 1000);
   }
-  fetch("https://jsonplaceholder.typicode.com/posts", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name: "Alan" }),
-  })
-    .then((response) => response.json())
-    .then((json) => console.log(json));
+  // fetch("https://jsonplaceholder.typicode.com/posts", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({ name: "Alan" }),
+  // })
+  //   .then((response) => response.json())
+  //   .then((json) => console.log(json));
 });
