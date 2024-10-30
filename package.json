@@ -1,0 +1,15 @@
+{
+  "name": "3-modul",
+  "version": "1.0.0",
+  "description": "Pro_TEC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Mukhammadaziz",
+  "license": "ISC",
+  "devDependencies": {
+    "json-server": "^1.0.0-beta.3"
+  }
+}
