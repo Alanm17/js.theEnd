@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }, 500);
   }, 2000);
 
-  // Tabs
+  // Tabsasasasasasasas
   function hideTabContent() {
     tabsContent.forEach((item) => {
       item.classList.add("hide");
