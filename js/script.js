@@ -241,26 +241,34 @@ window.addEventListener("DOMContentLoaded", () => {
       // const request = new XMLHttpRequest();
       // request.open("POST", "server.php");
       // setRequestHeader("Content-Type", "application/json");
+      function postData(url, data) {
+        const response = fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: data,
+        });
+        return response.json(); // to convert the JSON to normal text OBJ
+      }
       const formData = new FormData(form);
-      // const obj = {};
-      // formData.forEach((key, val) => {
-      //   obj[val] = key;
-      // });
-      fetch("server.php", {
+      const obj = {};
+      formData.forEach((key, val) => {
+        obj[val] = key;
+      });
+      fetch("http://localhost:3000/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: formData,
+        body: JSON.stringify(obj),
       })
         .then((data) => data.text())
         .then((data) => {
-          setTimeout(() => {
-            console.log(data);
-            showThankMsg(messages.success);
+          console.log(data);
+          showThankMsg(messages.success);
 
-            statusMessage.remove();
-          }, 2000);
+          statusMessage.remove();
         })
         .then((data) => {
           statusMessage.textContent = messages.loading;
@@ -308,10 +316,10 @@ window.addEventListener("DOMContentLoaded", () => {
     }, 1000);
   }
   // fetch has its own GET eventhough we do not write it
-  fetch("http://localhost:3000/menu")
-    .then((data) => data.json())
-    .then((res) => console.log(res))
-    .catch((error) => console.log(error)); // Log the error instead of res
+  // fetch("http://localhost:3000/menu")
+  //   .then((data) => data.json())
+  //   .then((res) => console.log(res))
+  //   .catch((error) => console.log(error)); // Log the error instead of res
 
   // fetch("https://jsonplaceholder.typicode.com/posts", {
   //   method: "POST",
