@@ -223,11 +223,18 @@ window.addEventListener("DOMContentLoaded", () => {
     failure: "Something Went Wrong",
   };
 
-  forms.forEach((form) => {
-    postData(form);
-  });
+  function postData(url, data) {
+    const response = fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+    return response.json(); // to convert the JSON to normal text OBJ
+  }
   console.log(forms);
-  function postData(form) {
+  function bindPostData(form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -241,16 +248,7 @@ window.addEventListener("DOMContentLoaded", () => {
       // const request = new XMLHttpRequest();
       // request.open("POST", "server.php");
       // setRequestHeader("Content-Type", "application/json");
-      function postData(url, data) {
-        const response = fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: data,
-        });
-        return response.json(); // to convert the JSON to normal text OBJ
-      }
+
       const formData = new FormData(form);
       const obj = {};
       formData.forEach((key, val) => {
@@ -337,3 +335,15 @@ window.addEventListener("DOMContentLoaded", () => {
 //   // .filter((data) => data.length > 1)
 //   .reduce((sum, curr) => `${sum} ${curr}`);
 // console.log(narr);
+/// deepCloning using JSON.parse(JSON.stringify)
+const original = {
+  name: "alan",
+  adds: {
+    city: "seoul",
+    postal: 4999,
+  },
+};
+const deepClone = JSON.parse(JSON.stringify(original));
+deepClone.adds.city = "NY";
+console.log(deepClone);
+console.log(original);
