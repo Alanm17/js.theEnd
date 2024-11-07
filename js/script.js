@@ -186,34 +186,15 @@ window.addEventListener("DOMContentLoaded", () => {
       this.parent.insertAdjacentHTML("beforeend", html);
     }
   }
-
-  new MenuCard(
-    "img/tabs/1.png",
-    "usual plan image",
-    'Plan "Usual"',
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.",
-    10,
-    ".menu .container"
-  ).render();
-
-  new MenuCard(
-    "img/tabs/2.jpg",
-    "premium plan image",
-    "Plan “Premium”",
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.",
-    20,
-    ".menu .container"
-  ).render();
-
-  new MenuCard(
-    "img/tabs/3.jpg",
-    "vip plan image",
-    "Plan VIP",
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.",
-    30,
-    ".menu .container",
-    "menu__item"
-  ).render();
+  async function getResource(url) {
+    const get = await fetch(url);
+    return await get.json();
+  }
+  getResource("http://localhost:3000/menu").then((data) => {
+    data.forEach(({ img, alt, title, descr, price }) => {
+      new MenuCard(img, alt, title, descr, price, ".menu .container").render();
+    });
+  });
   // Form Submission
   const forms = document.querySelectorAll("form");
 
@@ -222,16 +203,18 @@ window.addEventListener("DOMContentLoaded", () => {
     success: "Process Completed Successfully",
     failure: "Something Went Wrong",
   };
-
-  function postData(url, data) {
-    const response = fetch(url, {
+  forms.forEach((form) => {
+    bindPostData(form);
+  });
+  async function postData(url, data) {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: data,
     });
-    return response.json(); // to convert the JSON to normal text OBJ
+    return await response.json(); // to convert the JSON to normal text OBJ
   }
   console.log(forms);
   function bindPostData(form) {
@@ -250,22 +233,12 @@ window.addEventListener("DOMContentLoaded", () => {
       // setRequestHeader("Content-Type", "application/json");
 
       const formData = new FormData(form);
-      const obj = {};
-      formData.forEach((key, val) => {
-        obj[val] = key;
-      });
-      fetch("http://localhost:3000/request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(obj),
-      })
-        .then((data) => data.text())
+      console.log(formData);
+      const json = JSON.stringify(Object.fromEntries(formData.entries()));
+      postData("http://localhost:3000/request", json)
         .then((data) => {
           console.log(data);
           showThankMsg(messages.success);
-
           statusMessage.remove();
         })
         .then((data) => {
@@ -336,14 +309,19 @@ window.addEventListener("DOMContentLoaded", () => {
 //   .reduce((sum, curr) => `${sum} ${curr}`);
 // console.log(narr);
 /// deepCloning using JSON.parse(JSON.stringify)
-const original = {
-  name: "alan",
-  adds: {
-    city: "seoul",
-    postal: 4999,
-  },
-};
-const deepClone = JSON.parse(JSON.stringify(original));
-deepClone.adds.city = "NY";
-console.log(deepClone);
-console.log(original);
+// const original = {
+//   name: "alan",
+//   adds: {
+//     city: "seoul",
+//     postal: 4999,
+//   },
+// };
+// const deepClone = JSON.parse(JSON.stringify(original));
+// deepClone.adds.city = "NY";
+// console.log(deepClone);
+// console.log(original);
+
+// const container = document.querySelector(".container");
+// const newELM = document.createElement("p");
+// newELM.textContent = " this is the test paragraph ";
+// container.insertAdjacentElement("afterbegin", newELM);

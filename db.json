@@ -1,26 +1,26 @@
 {
   "menu": [
     {
-      "img": "img/tabs/2.jpg",
-      "altimg": "usual",
+      "img": "img/tabs/1.png",
+      "alt": "usual",
       "title": "Plan “Usual”",
       "descr": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.",
       "price": 10,
       "id": "4394"
     },
     {
-      "img": "img/tabs/3.jpg",
-      "altimg": "premium",
+      "img": "img/tabs/2.jpg",
+      "alt": "premium",
       "title": "Plan “Premium”",
       "descr": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.",
       "price": 20,
       "id": "d020"
     },
     {
-      "img": "img/tabs/4.jpg",
-      "altimg": "vip",
+      "img": "img/tabs/3.jpg",
+      "alt": "vip",
       "title": "Plan “VIP”",
-      "descriprion": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.",
+      "descr": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.",
       "price": 30,
       "id": "0e96"
     }
@@ -40,6 +40,51 @@
       "id": "ccac",
       "name": "Mukhammadaziz Kholdarov",
       "phone": "+82107887578"
+    },
+    {
+      "id": "85e4",
+      "name": "Alan",
+      "phone": "+3242342342"
+    },
+    {
+      "id": "a731",
+      "name": "Alan",
+      "phone": "+3242342342"
+    },
+    {
+      "id": "1579",
+      "name": "Mukhammadaziz ",
+      "phone": "01034276663"
+    },
+    {
+      "id": "258c",
+      "name": "Mukhammadaziz ",
+      "phone": "+82 107887578"
+    },
+    {
+      "id": "6458",
+      "name": "Mukhammadaziz ",
+      "phone": "+82 107887578"
+    },
+    {
+      "id": "b93f",
+      "name": "Alan",
+      "phone": "123"
+    },
+    {
+      "id": "7d41",
+      "name": "Alan",
+      "phone": "01034275553"
+    },
+    {
+      "id": "ba17",
+      "name": "Mukhammadaziz ",
+      "phone": "01034276663"
+    },
+    {
+      "id": "1dd4",
+      "name": "Mukhammadaziz ",
+      "phone": "01034276663"
     }
   ]
 }
