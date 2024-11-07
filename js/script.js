@@ -186,15 +186,20 @@ window.addEventListener("DOMContentLoaded", () => {
       this.parent.insertAdjacentHTML("beforeend", html);
     }
   }
-  async function getResource(url) {
-    const get = await fetch(url);
-    return await get.json();
-  }
-  getResource("http://localhost:3000/menu").then((data) => {
-    data.forEach(({ img, alt, title, descr, price }) => {
+  axios.get("http://localhost:3000/menu").then((data) =>
+    data.data.forEach(({ img, alt, title, descr, price }) => {
       new MenuCard(img, alt, title, descr, price, ".menu .container").render();
-    });
-  });
+    })
+  );
+  // async function getResource(url) {
+  //   const get = await fetch(url);
+  //   return await get.json();
+  // }
+  // getResource("http://localhost:3000/menu").then((data) => {
+  //   data.forEach(({ img, alt, title, descr, price }) => {
+  //     new MenuCard(img, alt, title, descr, price, ".menu .container").render();
+  //   });
+  // });
   // Form Submission
   const forms = document.querySelectorAll("form");
 
@@ -207,14 +212,8 @@ window.addEventListener("DOMContentLoaded", () => {
     bindPostData(form);
   });
   async function postData(url, data) {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: data,
-    });
-    return await response.json(); // to convert the JSON to normal text OBJ
+    const response = await axios.post(url, data);
+    return await response.data;
   }
   console.log(forms);
   function bindPostData(form) {
@@ -286,22 +285,75 @@ window.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }, 1000);
   }
-  // fetch has its own GET eventhough we do not write it
-  // fetch("http://localhost:3000/menu")
-  //   .then((data) => data.json())
-  //   .then((res) => console.log(res))
-  //   .catch((error) => console.log(error)); // Log the error instead of res
+  const slides = document.querySelectorAll(".offer__slide"),
+    prev = document.querySelector(".offer__slider-prev"),
+    next = document.querySelector(".offer__slider-next"),
+    current = document.querySelector("#current"),
+    total = document.querySelector("#total"),
+    slidesWrapper = document.querySelector(".offer__slider-wrapper"),
+    slidesField = document.querySelector(".offer__slider-wrapper-inner"),
+    width = window.getComputedStyle(slidesWrapper).width;
 
-  // fetch("https://jsonplaceholder.typicode.com/posts", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({ name: "Alan" }),
-  // })
-  //   .then((response) => response.json())
-  //   .then((json) => console.log(json));
+  let currI = 1;
+  let offset = 0;
+  // ???????????????????????????????????????????????????
+  slidesField.style.width = 100 * slides.length + "%";
+  slidesField.style.display = "flex";
+  slidesWrapper.style.overflow = "hidden";
+  slides.forEach((slide) => {
+    slide.style.width = width;
+  });
+  next.addEventListener("click", () => {
+    if (offset === +width.slice(0, width.length - 2) * (slides.length - 1)) {
+      offset = 0;
+    } else {
+      offset += +width.slice(0, width.length - 2);
+    }
+  });
+
+  // slides.length < 10
+  //   ? (total.textContent = `0${slides.length}`)
+  //   : (total.textContent = slides.length);
+  // function showSlider(i) {
+  //   if (i > slides.length) {
+  //     currI = 1;
+  //   } else if (i < 1) {
+  //     currI = slides.length;
+  //   }
+  //   slides.forEach((item) => (item.style.display = "none")); // here we made display property equal to none
+  //   slides[currI - 1].style.display = "block"; // here we made display property equal to block and from currI(current index)  we are deducting 1 as index starts from 0; but on top we made it equal to 1 as we can not add any value to 0 like (0+1 = 0)
+  //   slides.length < 10
+  //     ? (current.textContent = `0${currI}`)
+  //     : (current.textContent = currI);
+  // }
+  // function plusMove(n) {
+  //   showSlider((currI += n));
+  // }
+  // next.addEventListener("click", () => {
+  //   plusMove(1);
+  // });
+  // prev.addEventListener("click", () => {
+  //   plusMove(-1);
+  // });
+  // showSlider(currI);
 });
+
+// fetch has its own GET eventhough we do not write it
+// fetch("http://localhost:3000/menu")
+//   .then((data) => data.json())
+//   .then((res) => console.log(res))
+//   .catch((error) => console.log(error)); // Log the error instead of res
+
+// fetch("https://jsonplaceholder.typicode.com/posts", {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   body: JSON.stringify({ name: "Alan" }),
+// })
+//   .then((response) => response.json())
+//   .then((json) => console.log(json));
+
 // const arr = ["jake", "sa", "sjas", "ajsdhadjhd"];
 // const narr = arr
 //   .map((data) => data.toUpperCase())
