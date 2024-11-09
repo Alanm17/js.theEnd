@@ -288,27 +288,56 @@ window.addEventListener("DOMContentLoaded", () => {
   const slides = document.querySelectorAll(".offer__slide"),
     prev = document.querySelector(".offer__slider-prev"),
     next = document.querySelector(".offer__slider-next"),
-    current = document.querySelector("#current"),
-    total = document.querySelector("#total"),
     slidesWrapper = document.querySelector(".offer__slider-wrapper"),
     slidesField = document.querySelector(".offer__slider-wrapper-inner"),
-    width = window.getComputedStyle(slidesWrapper).width;
+    width = parseFloat(window.getComputedStyle(slidesWrapper).width), // Keep decimal
+    current = document.querySelector("#current"),
+    total = document.querySelector("#total");
 
   let currI = 1;
-  let offset = 0;
-  // ???????????????????????????????????????????????????
-  slidesField.style.width = 100 * slides.length + "%";
+
+  // Set the width of slides and the width of the slides field
+  slidesField.style.width = `${100 * slides.length}%`;
   slidesField.style.display = "flex";
   slidesWrapper.style.overflow = "hidden";
+
   slides.forEach((slide) => {
-    slide.style.width = width;
+    slide.style.width = `${width}px`; // Explicitly set width as pixel value
   });
+
+  let offset = 0;
+
+  // Update current slide number
+  const updateCurrentSlide = () => {
+    current.textContent = String(currI).padStart(2, "0"); // Update with two digits
+  };
+
+  // Event listener for "next" slide
   next.addEventListener("click", () => {
-    if (offset === +width.slice(0, width.length - 2) * (slides.length - 1)) {
+    // Calculate the offset for next slide
+    if (offset === width * (slides.length - 1)) {
       offset = 0;
     } else {
-      offset += +width.slice(0, width.length - 2);
+      offset += width; // Use width (float) for calculation
     }
+
+    slidesField.style.transform = `translateX(-${Math.round(offset)}px)`; // Round the offset for smooth animation
+    currI = currI < slides.length ? currI + 1 : 1; // Update slide number
+    updateCurrentSlide();
+  });
+
+  // Event listener for "previous" slide
+  prev.addEventListener("click", () => {
+    // Calculate the offset for previous slide
+    if (offset === 0) {
+      offset = width * (slides.length - 1);
+    } else {
+      offset -= width; // Use width (float) for calculation
+    }
+
+    slidesField.style.transform = `translateX(-${Math.round(offset)}px)`; // Round the offset for smooth animation
+    currI = currI > 1 ? currI - 1 : slides.length; // Update slide number
+    updateCurrentSlide();
   });
 
   // slides.length < 10
